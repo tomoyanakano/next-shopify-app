@@ -1,5 +1,7 @@
+import { Layout, Page, TextStyle } from '@shopify/polaris';
+
 export default function Home() {
   return (
-    <div>Hello Shopify Nextjs</div>
+    <Page>Hello Shopify Nextjs</Page>
   )
 }
