@@ -1,7 +1,10 @@
-import { Layout, Page, TextStyle } from '@shopify/polaris';
+import { Layout, Page, TextStyle, SettingToggle } from '@shopify/polaris';
+import { addFormFields } from '../lib/metafields';
 
 export default function Home() {
   return (
-    <Page>Hello Shopify Nextjs</Page>
+    <Page>
+      {addFormFields()}
+    </Page>
   )
 }
