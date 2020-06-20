@@ -8,6 +8,9 @@ module.exports = withCSS({
   webpack: (config) => {
     const env = { API_KEY: apiKey };
     config.plugins.push(new webpack.DefinePlugin(env));
+    config.node = {
+      fs: 'empty'
+    }
     return config;
   },
 });

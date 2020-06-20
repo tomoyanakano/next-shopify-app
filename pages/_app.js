@@ -8,7 +8,7 @@ import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import Cookies from 'js-cookie';
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
   fetchOptions: {
     credentials: 'include'
   },
