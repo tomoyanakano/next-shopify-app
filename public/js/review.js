@@ -1,15 +1,11 @@
-console.log("loaded");
-
+'use strict'
 function onSubmit() {
-  console.log('Submitted')
-  $.ajax({
-    type: "GET",
-    url: "https://2d0e57643adb.ngrok.io/api/hello",
-  }).done(function(data) {
-      console.log('Successful communication with API!');
-      console.log('ReturnParameter:' + data['name']);
-  }).fail(function(data) {
-      console.log('Ajax fail (communication error)');
-  });
+  fetch('https://next-shopify.vercel.app/api/hello', {
+    method: 'GET',
+    mode: 'cors',
+    credentials: 'include',
+    headers: {
+      'Access-Control-Allow-Origin': 'https://menkapp.myshopify.com'
+    }
+  }).then(console.log('loaded'));
 }
-

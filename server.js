@@ -1,5 +1,6 @@
 require('isomorphic-fetch');
 const Koa = require('koa');
+const cors = require('@koa/cors');
 const next = require('next');
 const { default: createShopifyAuth } = require('@shopify/koa-shopify-auth');
 const dotenv = require('dotenv');
@@ -16,6 +17,7 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 
 const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY } = process.env;
+
 
 app.prepare().then(() => {
   const server = new Koa();
@@ -41,11 +43,14 @@ app.prepare().then(() => {
 
   server.use(graphQLProxy({version: ApiVersion.October19}))
   server.use(verifyRequest());
-  server.use(async (ctx) => {
+  server.use(async (ctx, next) => {
     await handle(ctx.req, ctx.res);
+    ctx.set('Access-Control-Allow-Origin', 'https://menkapp.myshopify.com');
+    ctx.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    // ctx.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
     ctx.respond = false;
     ctx.res.statusCode = 200;
-
+    next();
   });
 
   server.listen(port, () => {
