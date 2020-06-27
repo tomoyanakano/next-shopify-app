@@ -1,11 +1,23 @@
 'use strict'
-function onSubmit() {
-  fetch('https://next-shopify.vercel.app/api/hello', {
-    method: 'GET',
-    mode: 'cors',
-    credentials: 'include',
+
+// json型にparse
+var parseJson = function(list) {
+  var returnJson = {};
+  list.map(function(data) {
+    returnJson[data.name] = data.value
+  });
+  return returnJson;
+}
+
+function onSubmit(value) {
+  var inputList = $(value).serializeArray();
+  var data = parseJson(inputList);
+  console.log(data);
+  $.ajax({
+    url: 'https://next-shopify.vercel.app/api/hello',
+    method: 'POST',
     headers: {
       'Access-Control-Allow-Origin': 'https://menkapp.myshopify.com'
     }
-  }).then(console.log('loaded'));
+  }).done((resp) => console.log(resp));
 }
