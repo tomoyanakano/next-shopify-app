@@ -23,7 +23,9 @@ export default async function handler(req, res) {
   console.log(req.dataType)
 
   return res.json({ 
-    result: req.data,
+    data: req.data,
+    methods: req.methods,
+    dataType: req.dataType,
   })
 
   // client.mutate({
