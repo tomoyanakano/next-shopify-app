@@ -1,7 +1,6 @@
 import Cors from 'cors'
 import initMiddleware from '../../lib/init-middleware'
-
-import client from '../../lib/apolloClient';
+import { client } from '../../lib/apolloClient';
 import {
   ADD_METAFIELD
 } from '../../lib/mutations';
