@@ -35,12 +35,16 @@ export default async function handler(req, res) {
     }
   } 
 
-  client.mutate({
-    mutation: ADD_METAFIELD,
-    variables: AddFormVariables,
-  }).then((result) => {
-    return res.json({ 
-      result: req,
-    })
+  return res.json({ 
+    result: req,
   })
+
+  // client.mutate({
+  //   mutation: ADD_METAFIELD,
+  //   variables: AddFormVariables,
+  // }).then((result) => {
+  //   return res.json({ 
+  //     result: req,
+  //   })
+  // })
 }
