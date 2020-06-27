@@ -14,6 +14,6 @@ export default async function handler(req, res) {
   // Run cors
   await cors(req, res)
   // Rest of the API logic
-  console.log(req);
-  res.json({ message: 'Hello Everyone!' })
+  
+  res.json(req);
 }
