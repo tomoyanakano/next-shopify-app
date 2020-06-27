@@ -18,6 +18,8 @@ function onSubmit(value) {
     method: 'POST',
     headers: {
       'Access-Control-Allow-Origin': 'https://menkapp.myshopify.com'
-    }
+    },
+    dataType: "json",
+    data: data
   }).done((resp) => console.log(resp));
 }

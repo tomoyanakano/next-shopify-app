@@ -33,10 +33,11 @@ export default async function handler(req, res) {
   //     }
   //   }
   // } 
-
-  return res.json({ 
-    result: req.data,
-  })
+  req.on('data', function(data) {
+    return res.json({ 
+      result: data,
+    })
+  });
 
   // client.mutate({
   //   mutation: ADD_METAFIELD,
