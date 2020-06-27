@@ -18,7 +18,6 @@ export default async function handler(req, res) {
   // Run cors
   await cors(req, res)
   // Rest of the API logic
-  console.log(req)
   // const AddFormVariables = function(productId) {
   //   return {
   //     input : {
@@ -36,7 +35,7 @@ export default async function handler(req, res) {
   // } 
 
   return res.json({ 
-    result: 'succeed',
+    result: req.data,
   })
 
   // client.mutate({
