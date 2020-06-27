@@ -18,28 +18,32 @@ export default async function handler(req, res) {
   // Run cors
   await cors(req, res)
   // Rest of the API logic
-  const AddFormVariables = function(productId) {
-    return {
-      input : {
-        id: `gid://shopify/Product/${productId}`,
-        metafields: [
-          {
-            namespace: "MenkReview",
-            key: "review", // customerId
-            value: Json.stringify(req),
-            valueType: "STRING"
-          }
-        ]
-      }
-    }
-  } 
-
-  client.mutate({
-    mutation: ADD_METAFIELD,
-    variables: AddFormVariables,
-  }).then((result) => {
-    return res.json({ 
-      result: req,
-    })
+  return res.json({ 
+    result: 'succeed',
   })
+  // console.log(req)
+  // const AddFormVariables = function(productId) {
+  //   return {
+  //     input : {
+  //       id: `gid://shopify/Product/${productId}`,
+  //       metafields: [
+  //         {
+  //           namespace: "MenkReview",
+  //           key: "review", // customerId
+  //           value: Json.stringify(req),
+  //           valueType: "STRING"
+  //         }
+  //       ]
+  //     }
+  //   }
+  // } 
+
+  // client.mutate({
+  //   mutation: ADD_METAFIELD,
+  //   variables: AddFormVariables,
+  // }).then((result) => {
+  //   return res.json({ 
+  //     result: req,
+  //   })
+  // })
 }
