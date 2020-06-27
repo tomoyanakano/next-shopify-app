@@ -17,8 +17,16 @@ const cors = initMiddleware(
 export default async function handler(req, res) {
   // Run cors
   await cors(req, res)
-
   return res.json({ 
-    req: req,
+    data: req.body,
   })
+
+  // client.mutate({
+  //   mutation: ADD_METAFIELD,
+  //   variables: AddFormVariables,
+  // }).then((result) => {
+  //   return res.json({ 
+  //     result: req,
+  //   })
+  // })
 }
