@@ -20,6 +20,8 @@ export default async function handler(req, res) {
   // Run cors
   await cors(req, res)
 
+  console.log(JSON.stringify(req.body))
+
   const AddFormVariables = function(productId) {
     return {
       input : {
@@ -49,17 +51,18 @@ export default async function handler(req, res) {
     body: JSON.stringify(params)
   };
 
+  console.log(JSON.stringify(params))
+
   const url = 'https://' + SHOPIFY_API_KEY + ':' + SHOPIFY_API_SECRET_KEY + '@menkapp.myshopify.com/admin/api/2019-07/graphql.json'
-    console.log(url) //used to see if URL is correct
     
-    fetch(url, optionsMetafields)
-    
-      .then(res => res.json())
-      .then(response => {
-        return res.json({
-          result: response,
-        })
-      });
+  fetch(url, optionsMetafields)
+  
+    .then(res => res.json())
+    .then(response => {
+      return res.json({
+        result: response,
+      })
+    });
 
   // await client.mutate({
   //   mutation: ADD_METAFIELD,
