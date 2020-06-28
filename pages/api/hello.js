@@ -4,6 +4,8 @@ import { client } from '../../lib/apolloClient';
 import {
   ADD_METAFIELD
 } from '../../lib/mutations';
+const dotenv = require('dotenv');
+const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY } = process.env;
 
 // Initialize the cors middleware
 const cors = initMiddleware(
@@ -34,16 +36,41 @@ export default async function handler(req, res) {
     }
   }
 
-  await client.mutate({
-    mutation: ADD_METAFIELD,
-    variables: AddFormVariables,
-  }).then((result) => {
-    return res.json({ 
-      result: result,
-    })
-  })
+  const params = {
+    query: ADD_METAFIELD,
+    variables: AddFormVariables(req.body['productId'])
+  }
 
-  return res.json({
-    result: 'falied'
-  })
+  const optionsMetafields = {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(params)
+  };
+
+  const url = 'https://' + SHOPIFY_API_KEY + ':' + SHOPIFY_API_SECRET_KEY + '@menkapp.myshopify.com/admin/api/2019-07/graphql.json'
+    console.log(url) //used to see if URL is correct
+    
+    fetch(url, optionsMetafields)
+    
+      .then(res => res.json())
+      .then(response => {
+        return res.json({
+          result: response,
+        })
+      });
+
+  // await client.mutate({
+  //   mutation: ADD_METAFIELD,
+  //   variables: AddFormVariables,
+  // }).then((result) => {
+  //   return res.json({ 
+  //     result: result,
+  //   })
+  // })
+
+  // return res.json({
+  //   result: 'falied'
+  // })
 }
