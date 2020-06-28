@@ -42,4 +42,8 @@ export default async function handler(req, res) {
       result: result,
     })
   })
+
+  return res.json({
+    result: 'falied'
+  })
 }
