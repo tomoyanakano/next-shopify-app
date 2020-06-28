@@ -53,38 +53,11 @@ export default async function handler(req, res) {
 
   const url = 'https://' + SHOPIFY_API_KEY + ':' + SHOPIFY_API_SECRET_KEY + '@menkapp.myshopify.com/admin/api/2019-07/graphql.json'
     
-
-  $.ajax({
-    url: url,
-    method: 'POST',
-    data: {
-      metafields: {
-        namespace: "MenkReview",
-        key: "review",
-        value: JSON.stringify(req.body),
-        valueType: "STRING"
-      }
-    }
-  })
-  // fetch(url, optionsMetafields)
-  
-  //   .then(res => res.json())
-  //   .then(response => {
-  //     return res.json({
-  //       result: response,
-  //     })
-  //   });
-
-  // await client.mutate({
-  //   mutation: ADD_METAFIELD,
-  //   variables: AddFormVariables,
-  // }).then((result) => {
-  //   return res.json({ 
-  //     result: result,
-  //   })
-  // })
-
-  // return res.json({
-  //   result: 'falied'
-  // })
+  fetch(url, optionsMetafields)
+    .then(res => res.json())
+    .then(response => {
+      return res.json({
+        result: response,
+      })
+    });
 }
