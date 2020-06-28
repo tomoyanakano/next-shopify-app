@@ -48,10 +48,8 @@ export default async function handler(req, res) {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(params)
+    body: params,
   };
-
-  console.log(JSON.stringify(params))
 
   const url = 'https://' + SHOPIFY_API_KEY + ':' + SHOPIFY_API_SECRET_KEY + '@menkapp.myshopify.com/admin/api/2019-07/graphql.json'
     
