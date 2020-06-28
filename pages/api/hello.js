@@ -33,13 +33,12 @@ export default async function handler(req, res) {
       }
     }
   }
-
   client.mutate({
     mutation: ADD_METAFIELD,
-    variables: AddFormVariables,
+    variables: AddFormVariables(req.body['productId']),
     context: {
       headers: {
-        'Access-Control-Allow-Origin': 'https://menkapp.myshopify.com'
+        'Access-Control-Allow-Origin': '*'
       }
     }
   }).then((result) => {
