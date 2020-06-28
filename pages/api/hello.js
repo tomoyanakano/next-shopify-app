@@ -18,32 +18,28 @@ export default async function handler(req, res) {
   // Run cors
   await cors(req, res)
 
-  // const AddFormVariables = function(productId) {
-  //   return {
-  //     input : {
-  //       id: `gid://shopify/Product/${productId}`,
-  //       metafields: [
-  //         {
-  //           namespace: "MenkReview",
-  //           key: "form",
-  //           value: reviewForm(productId),
-  //           valueType: "STRING"
-  //         }
-  //       ]
-  //     }
-  //   }
-  // }
+  const AddFormVariables = function(productId) {
+    return {
+      input : {
+        id: `gid://shopify/Product/${productId}`,
+        metafields: [
+          {
+            namespace: "MenkReview",
+            key: "review",
+            value: JSON.stringify(req.body),
+            valueType: "STRING"
+          }
+        ]
+      }
+    }
+  }
 
-  // client.mutate({
-  //   mutation: ADD_METAFIELD,
-  //   variables: AddFormVariables,
-  // }).then((result) => {
-  //   return res.json({ 
-  //     result: req,
-  //   })
-  // })
-
-  return res.json({
-    result: req.body,
+  client.mutate({
+    mutation: ADD_METAFIELD,
+    variables: AddFormVariables,
+  }).then((result) => {
+    return res.json({ 
+      result: result,
+    })
   })
 }
