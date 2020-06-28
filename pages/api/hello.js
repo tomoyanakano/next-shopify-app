@@ -37,6 +37,11 @@ export default async function handler(req, res) {
   client.mutate({
     mutation: ADD_METAFIELD,
     variables: AddFormVariables,
+    context: {
+      headers: {
+        'Access-Control-Allow-Origin': 'https://menkapp.myshopify.com'
+      }
+    }
   }).then((result) => {
     return res.json({ 
       result: result,
