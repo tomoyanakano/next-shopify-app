@@ -17,9 +17,22 @@ const cors = initMiddleware(
 export default async function handler(req, res) {
   // Run cors
   await cors(req, res)
-  return res.json({ 
-    data: req.body,
-  })
+
+  // const AddFormVariables = function(productId) {
+  //   return {
+  //     input : {
+  //       id: `gid://shopify/Product/${productId}`,
+  //       metafields: [
+  //         {
+  //           namespace: "MenkReview",
+  //           key: "form",
+  //           value: reviewForm(productId),
+  //           valueType: "STRING"
+  //         }
+  //       ]
+  //     }
+  //   }
+  // }
 
   // client.mutate({
   //   mutation: ADD_METAFIELD,
@@ -29,4 +42,8 @@ export default async function handler(req, res) {
   //     result: req,
   //   })
   // })
+
+  return res.json({
+    result: Json.stringify(req.body),
+  })
 }

@@ -10,9 +10,10 @@ var parseJson = function(list) {
 }
 
 function onSubmit(value) {
+  var customerId = $('.reviewForm').attr('customerId');
   var inputList = $(value).serializeArray();
   var data = parseJson(inputList);
-  console.log(data);
+  data['customerId'] = customerId;
   $.ajax({
     url: 'https://next-shopify.vercel.app/api/hello',
     method: 'POST',
