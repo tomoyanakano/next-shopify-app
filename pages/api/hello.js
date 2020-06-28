@@ -50,13 +50,12 @@ export default async function handler(req, res) {
   };
 
   const url = 'https://' + SHOPIFY_API_KEY + ':' + SHOPIFY_API_SECRET_KEY + '@menkapp.myshopify.com/admin/api/2019-07/graphql.json'
-  
-  client.mutate({
-    mutation: ADD_METAFIELD,
-    variables: AddFormVariables(req.body['productId']),
-  }).then((result) => {
-    return res.json({ 
-      result: result,
-    })
-  })
+
+  fetch(url, optionsMetafields)
+      .then(res => res.json())
+      .then(response => {
+        console.log(JSON.stringify(response, null, 4))
+      });
+    
+  res.status(200).json({ name: 'Succeed' })
 }
