@@ -5,7 +5,7 @@ import {
   ADD_METAFIELD
 } from '../../lib/mutations';
 const dotenv = require('dotenv');
-const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY } = process.env;
+const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY, SHOPIFY_PRIVATE_APP_API, SHOPIFY_PRIVATE_APP_PASS } = process.env;
 
 // Initialize the cors middleware
 const cors = initMiddleware(
@@ -61,12 +61,9 @@ export default async function handler(req, res) {
     body: JSON.stringify(data)
   };
 
-  console.log(SHOPIFY_API_KEY)
-  console.log(SHOPIFY_API_SECRET_KEY)
-
   // /admin/api/2020-04/metafields/count.json
   // /admin/api/2020-04/products/'+ req.body.productId +'/metafields.json
-  const url = 'https://' + SHOPIFY_API_KEY + ':' + SHOPIFY_API_SECRET_KEY + '@menkapp.myshopify.com/admin/api/2020-04/metafields/count.json'
+  const url = 'https://' + SHOPIFY_PRIVATE_APP_API + ':' + SHOPIFY_PRIVATE_APP_PASS + '@menkapp.myshopify.com/admin/api/2020-04/metafields/count.json'
   fetch(url, optionsMetafields)
     .then(res => res.json())
     .then(response => {
