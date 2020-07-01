@@ -20,35 +20,12 @@ export default async function handler(req, res) {
   // Run cors
   await cors(req, res)
 
-  console.log(JSON.stringify(req.body))
-
-  const AddFormVariables = function(productId) {
-    return {
-      input : {
-        id: `gid://shopify/Product/${productId}`,
-        metafields: [
-          {
-            namespace: "MenkReview",
-            key: "review",
-            value: JSON.stringify(req.body),
-            valueType: "STRING"
-          }
-        ]
-      }
-    }
-  }
-
-  const params = {
-    query: ADD_METAFIELD,
-    variables: AddFormVariables(req.body['productId'])
-  }
-
   const data = {
     "metafield": {
-      "namespace": "inventory",
-      "key": "warehouse",
-      "value": 25,
-      "value_type": "integer"
+      "namespace": "MenkReview",
+      "key": "review",
+      "value": JSON.stringify(req.body),
+      "value_type": "STRING"
     }
   }
 
