@@ -44,15 +44,15 @@ export default async function handler(req, res) {
   }
 
   const optionsMetafields = {
-    method: "POST",
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
       "X-Shopify-Access-Token": SHOPIFY_API_KEY
     },
-    body: JSON.stringify(params)
+    // body: JSON.stringify(params)
   };
 
-  const url = 'https://' + SHOPIFY_API_KEY + ':' + SHOPIFY_API_SECRET_KEY + '@menkapp.myshopify.com/admin/api/2019-07/graphql.json'
+  const url = 'https://' + SHOPIFY_API_KEY + ':' + SHOPIFY_API_SECRET_KEY + '@menkapp.myshopify.com/admin/api/2020-04/metafields.json'
   fetch(url, optionsMetafields)
     .then(res => res.json())
     .then(response => {
