@@ -44,15 +44,16 @@ export default async function handler(req, res) {
   }
 
   const optionsMetafields = {
-    method: "post",
+    method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(params)
+    body: Json.stringify(params)
   };
 
-  const url = 'https://' + SHOPIFY_API_KEY + ':' + SHOPIFY_API_SECRET_KEY + '@menkapp.myshopify.com/admin/api/2019-07/graphql.json'
-    
+  console.log(req.body.productId);
+
+  const url = 'https://' + SHOPIFY_API_KEY + ':' + SHOPIFY_API_SECRET_KEY + '@menkapp.myshopify.com/admin/api/2020-04/products/' + req.body.productId + '/metafields.json'
   fetch(url, optionsMetafields)
     .then(res => res.json())
     .then(response => {
