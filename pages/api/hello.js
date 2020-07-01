@@ -47,7 +47,6 @@ export default async function handler(req, res) {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "X-Shopify-Access-Token": SHOPIFY_API_KEY
     },
     // body: JSON.stringify(params)
   };
