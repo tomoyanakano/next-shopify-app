@@ -61,6 +61,9 @@ export default async function handler(req, res) {
     body: JSON.stringify(data)
   };
 
+  console.log(SHOPIFY_API_KEY)
+  console.log(SHOPIFY_API_SECRET_KEY)
+
   // /admin/api/2020-04/metafields/count.json
   // /admin/api/2020-04/products/'+ req.body.productId +'/metafields.json
   const url = 'https://' + SHOPIFY_API_KEY + ':' + SHOPIFY_API_SECRET_KEY + '@menkapp.myshopify.com/admin/api/2020-04/metafields/count.json'
