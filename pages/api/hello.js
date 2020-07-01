@@ -53,12 +53,11 @@ export default async function handler(req, res) {
   }
 
   const optionsMetafields = {
-    method: "POST",
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "X-Shopify-Access-Token": "f9801b3ca3e6321020f7bc00cbbdfcaa"
     },
-    body: JSON.stringify(data)
+    // body: JSON.stringify(data)
   };
 
   // /admin/api/2020-04/metafields/count.json
