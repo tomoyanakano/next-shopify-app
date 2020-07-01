@@ -46,20 +46,22 @@ export default async function handler(req, res) {
     variables: AddFormVariables(req.body['productId'])
   }
 
+  const data = {
+    "metafield": {
+      "namespace": "inventory",
+      "key": "warehouse",
+      "value": 25,
+      "value_type": "integer"
+    }
+  }
+
   const optionsMetafields = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       // "X-Shopify-Access-Token": SHOPIFY_API_KEY
     },
-    body: {
-      "metafield": {
-        "namespace": "inventory",
-        "key": "warehouse",
-        "value": 25,
-        "value_type": "integer"
-      }
-    }
+    body: JSON.stringify(data)
   };
 
   const url = 'https://' + SHOPIFY_API_KEY + ':' + SHOPIFY_API_SECRET_KEY + '@menkapp.myshopify.com/admin/api/2020-04/products/&|'+ req.body.productId +'/metafields.json'
