@@ -38,20 +38,31 @@ export default async function handler(req, res) {
     }
   }
 
+  console.log(req.body['productId'])
+  console.log(req.body.productId)
+
   const params = {
     query: ADD_METAFIELD,
     variables: AddFormVariables(req.body['productId'])
   }
 
   const optionsMetafields = {
-    method: "GET",
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
+      // "X-Shopify-Access-Token": SHOPIFY_API_KEY
     },
-    // body: JSON.stringify(params)
+    body: {
+      "metafield": {
+        "namespace": "inventory",
+        "key": "warehouse",
+        "value": 25,
+        "value_type": "integer"
+      }
+    }
   };
 
-  const url = 'https://' + SHOPIFY_API_KEY + ':' + SHOPIFY_API_SECRET_KEY + '@menkapp.myshopify.com/admin/api/2020-04/metafields.json'
+  const url = 'https://' + SHOPIFY_API_KEY + ':' + SHOPIFY_API_SECRET_KEY + '@menkapp.myshopify.com/admin/api/2020-04/products/&|'+ req.body.productId +'/metafields.json'
   fetch(url, optionsMetafields)
     .then(res => res.json())
     .then(response => {
