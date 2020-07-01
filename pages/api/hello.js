@@ -38,9 +38,6 @@ export default async function handler(req, res) {
     }
   }
 
-  console.log(req.body['productId'])
-  console.log(req.body.productId)
-
   const params = {
     query: ADD_METAFIELD,
     variables: AddFormVariables(req.body['productId'])
@@ -59,6 +56,7 @@ export default async function handler(req, res) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "X-Shopify-Access-Token": "f9801b3ca3e6321020f7bc00cbbdfcaa"
     },
     body: JSON.stringify(data)
   };

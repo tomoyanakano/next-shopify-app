@@ -18,7 +18,8 @@ function onSubmit(value) {
     url: 'https://next-shopify.vercel.app/api/hello',
     method: 'POST',
     headers: {
-      'Access-Control-Allow-Origin': 'https://menkapp.myshopify.com'
+      'Access-Control-Allow-Origin': 'https://menkapp.myshopify.com',
+      'scopes': ['read_products', 'write_products', 'write_script_tags', 'read_script_tags'],
     },
     dataType: "json",
     data: data
