@@ -44,11 +44,11 @@ export default async function handler(req, res) {
   }
 
   const optionsMetafields = {
-    method: "POST",
-    headers: {
+    "method": "POST",
+    "headers": {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(params)
+    "body": JSON.stringify(params)
   };
 
   const url = 'https://' + SHOPIFY_API_KEY + ':' + SHOPIFY_API_SECRET_KEY + '@menkapp.myshopify.com/admin/api/2019-07/graphql.json'
