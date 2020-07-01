@@ -63,7 +63,7 @@ export default async function handler(req, res) {
 
   // /admin/api/2020-04/metafields/count.json
   // /admin/api/2020-04/products/'+ req.body.productId +'/metafields.json
-  const url = 'https://' + SHOPIFY_PRIVATE_APP_API + ':' + SHOPIFY_PRIVATE_APP_PASS + '@menkapp.myshopify.com/admin/api/2020-04/metafields/count.json'
+  const url = 'https://4632ee88995ed27c0872bb82e6d54764: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@menkapp.myshopify.com/admin/api/2020-04/orders.json'
   fetch(url, optionsMetafields)
     .then(res => res.json())
     .then(response => {
