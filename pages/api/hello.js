@@ -26,7 +26,7 @@ export default async function handler(req, res) {
     }
   }
 
-  const addReviewOptionsMetafields = {
+  const optionsMetafields = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -34,32 +34,11 @@ export default async function handler(req, res) {
     body: JSON.stringify(data)
   };
 
-  const addTotalValOptionsMetafields = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  }
-
-  // fetch(url + '/products/'+ req.body.productId +'/metafields.json', addReviewOptionsMetafields)
-  //   .then(res => res.json())
-  //   .then(response => {
-  //     return res.json({
-  //       result: response,
-  //     })
-  //   });
-
-  fetch(url + '/products/'+ req.body.productId +'/metafields.json?namespace=reviewAverage', addTotalValOptionsMetafields)
-      .then(res => res.json())
-      .then(response => {
-        if (response['metafields'].length == 0) {
-          return res.json({
-            result: 'empty',
-          })
-        } else {
-          return res.json({
-            result: 'isnotEmpty'
-          })
-        }
+  fetch(url + '/admin/api/2020-04/products/'+ req.body.productId +'/metafields.json', optionsMetafields)
+    .then(res => res.json())
+    .then(response => {
+      return res.json({
+        result: response,
       })
+    });
 }
