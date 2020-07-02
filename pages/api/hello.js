@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY, SHOPIFY_PRIVATE_APP_API, SHOPIFY_PRIVATE_APP_PASS } = process.env;
 
 // Initialize the cors middleware
-const url = 'https://'+ SHOPIFY_PRIVATE_APP_API + ':' + SHOPIFY_PRIVATE_APP_PASS + '@menkapp.myshopify.com'
+const url = 'https://'+ SHOPIFY_PRIVATE_APP_API + ':' + SHOPIFY_PRIVATE_APP_PASS + '@menkapp.myshopify.com/admin/api/2020-04'
 const cors = initMiddleware(
   // You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
   Cors({
@@ -26,7 +26,7 @@ export default async function handler(req, res) {
     }
   }
 
-  const optionsMetafields = {
+  const addReviewOptionsMetafields = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -34,11 +34,26 @@ export default async function handler(req, res) {
     body: JSON.stringify(data)
   };
 
-  fetch(url + '/admin/api/2020-04/products/'+ req.body.productId +'/metafields.json', optionsMetafields)
-    .then(res => res.json())
-    .then(response => {
-      return res.json({
-        result: response,
+  const addTotalValOptionsMetafields = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  }
+
+  // fetch(url + '/products/'+ req.body.productId +'/metafields.json', addReviewOptionsMetafields)
+  //   .then(res => res.json())
+  //   .then(response => {
+  //     return res.json({
+  //       result: response,
+  //     })
+  //   });
+
+  fetch(url + '/products/'+ req.body.productId +'/metafields.json', addTotalValOptionsMetafields)
+      .then(res => res.json())
+      .then(response => {
+        return res.json({
+          result: response,
+        })
       })
-    });
 }
