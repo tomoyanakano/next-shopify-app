@@ -49,7 +49,7 @@ export default async function handler(req, res) {
   //     })
   //   });
 
-  fetch(url + '/products/'+ req.body.productId +'/metafields.json?namespace=MenkReview', addTotalValOptionsMetafields)
+  fetch(url + '/products/'+ req.body.productId +'/metafields.json?namespace=reviewAverage', addTotalValOptionsMetafields)
       .then(res => res.json())
       .then(response => {
         return res.json({
