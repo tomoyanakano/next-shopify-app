@@ -23,7 +23,7 @@ export default async function handler(req, res) {
   const data = {
     "metafield": {
       "namespace": "MenkReview",
-      "key": "review",
+      "key": req.body.customerId,
       "value": JSON.stringify(req.body),
       "value_type": "STRING"
     }
