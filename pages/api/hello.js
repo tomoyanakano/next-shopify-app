@@ -52,8 +52,14 @@ export default async function handler(req, res) {
   fetch(url + '/products/'+ req.body.productId +'/metafields.json?namespace=reviewAverage', addTotalValOptionsMetafields)
       .then(res => res.json())
       .then(response => {
-        return res.json({
-          result: response,
-        })
+        if (response['metafields'].length == 0) {
+          return res.json({
+            result: 'empty',
+          })
+        } else {
+          return res.json({
+            result: 'isnotEmpty'
+          })
+        }
       })
 }
