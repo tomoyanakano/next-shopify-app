@@ -10,10 +10,12 @@ var parseJson = function(list) {
 }
 
 function onSubmit(value) {
-  var customerId = $('.reviewForm').attr('customerId');;
+  var customerId = $('#menk-review-form').attr('customerId');;
   var inputList = $(value).serializeArray();
   var data = parseJson(inputList);
   data['customerId'] = customerId;
+  data['visivbility'] = "true";
+  $('#menk-form-submit-button').attr("disabled", "disabled")
   console.log(data);
   $.ajax({
     url: 'https://next-shopify.vercel.app/api/hello',
@@ -24,5 +26,11 @@ function onSubmit(value) {
     },
     dataType: "json",
     data: data
-  }).done((resp) => console.log(resp));
+  }).done((resp) => {
+    $('#menk-review-form').replaceWith(
+      `<div class="submit-result" style="margin: 0 auto; text-align: center;">
+        <h2>レビューありがとうございました！</h2>
+      </div>`
+    )
+  });
 }
