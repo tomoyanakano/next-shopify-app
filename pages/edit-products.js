@@ -101,6 +101,7 @@ class ReviewTile extends React.Component {
   }
 
   changeVisibility = () => {
+    this.setState({visibility: !this.state.visibility})
     console.log(this.state.visibility)
   }
 
@@ -112,7 +113,7 @@ class ReviewTile extends React.Component {
       visibilityIcon = <AiFillEyeInvisible size={32} />
     }
     return(
-      <ListItem>
+      <ListItem key={this.props.id}>
         <div className="main">
           <div style={{display: "flex"}}>
             <Rating name="half-rating" defaultValue={parseInt(this.props.json['evaluation'])} precision={1} />
@@ -124,7 +125,7 @@ class ReviewTile extends React.Component {
           <div>{this.props.json['content']}</div>
         </div>
         <ListItemSecondaryAction>
-          <IconButton edge="end" aria-label="changeVisibility">
+          <IconButton edge="end" aria-label="changeVisibility" onClick={this.changeVisibility}>
             {visibilityIcon}
           </IconButton>
         </ListItemSecondaryAction>
