@@ -1,4 +1,4 @@
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import store from 'store-js';
 import gql from 'graphql-tag';
 import Rating from '@material-ui/lab/Rating';
@@ -19,22 +19,46 @@ import IconButton from '@material-ui/core/IconButton';
 
 
 const GET_REVIEWS = gql`
-query Product($id: ID!){ 
-   product(id: $id) {
-    metafields(first: 30, namespace: "MenkReview") {
-      edges {
-        node {
-          id
-          key
-          value
-          valueType
-          description
-          legacyResourceId
+  query Product($id: ID!){ 
+    product(id: $id) {
+      metafields(first: 30, namespace: "MenkReview") {
+        edges {
+          node {
+            id
+            key
+            value
+            valueType
+            description
+            legacyResourceId
+          }
         }
       }
     }
   }
-}
+`;
+
+const UPDATE_METAFIELD = gql`
+  mutation($input: ProductInput!) {
+    productUpdate(input: $input) {
+      product {
+        metafields(first: 100) {
+          edges {
+            node {
+              id
+              namespace
+              key
+              value
+              description
+            }
+          }
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
 `;
 
 
@@ -66,7 +90,12 @@ class EditProduct extends React.Component {
                   {data.product.metafields.edges.map((value) => {
                     const json = JSON.parse(value.node.value)
                     return(
-                      <ReviewTile json={json} id={value.node.key} />
+                      <ReviewTile 
+                        json={json} 
+                        key={value.node.key}
+                        customerId={value.node.key} 
+                        variantId={variantId} 
+                      />
                     )
                   })}
                 </List>
@@ -86,34 +115,9 @@ class EditProduct extends React.Component {
 }
 
 class ReviewTile extends React.Component {
-  
-  constructor(props) {
-    super(props);
-    let visibility
-    if (this.props.json['visibility'] == 'true') {
-      visibility = true
-    } else {
-      visibility = false
-    }
-    this.state = {
-      visibility: visibility
-    }
-  }
-
-  changeVisibility = () => {
-    this.setState({visibility: !this.state.visibility})
-    console.log(this.state.visibility)
-  }
-
   render() {
-    let visibilityIcon 
-    if (this.state.visibility) {
-      visibilityIcon = <AiFillEye size={32} />
-    } else {
-      visibilityIcon = <AiFillEyeInvisible size={32} />
-    }
     return(
-      <ListItem key={this.props.id}>
+      <ListItem>
         <div className="main">
           <div style={{display: "flex"}}>
             <Rating name="half-rating" defaultValue={parseInt(this.props.json['evaluation'])} precision={1} />
@@ -125,14 +129,73 @@ class ReviewTile extends React.Component {
           <div>{this.props.json['content']}</div>
         </div>
         <ListItemSecondaryAction>
-          <IconButton edge="end" aria-label="changeVisibility" onClick={this.changeVisibility}>
-            {visibilityIcon}
-          </IconButton>
+          <VisibilityButton 
+            visibility={this.props.json['visibility']} 
+            customerId={this.props.customerId}
+            variantId={this.props.variantId}
+            json={this.props.json}
+          />
         </ListItemSecondaryAction>
-      </ListItem>
+      </ListItem>  
     )
   }
 }
 
+class VisibilityButton extends React.Component {
+  
+  setVariables = () => {
+    let json = this.props.json
+    if (this.props.visibility == "true") {
+      json['visibility'] = "false"
+    } else {
+      json['visibility'] = "true"
+    }
+    console.log(json)
+    let variables = {
+      input : {
+        id: this.props.variantId,
+        metafields: [
+          {
+            namespace: "MenkReview",
+            key: this.props.customerId,
+            value: JSON.stringify(json),
+            valueType: "JSON_STRING"
+          }
+        ]
+      }
+    }
+    return variables
+  }
+
+  render() {
+    return(
+      <Mutation mutation={UPDATE_METAFIELD}>
+        {(handleSubmit, {loading, error, data}) => {
+          if (loading) {console.log(loading)}
+          if (data) {console.log(data)}
+          if (error) {console.log(error)}
+          let icon
+          if (this.props.visibility == "true") {
+            icon = <AiFillEye size={32} />
+          } else {
+            icon = <AiFillEyeInvisible size={32} />
+          }
+          return (
+            <IconButton 
+              onClick={() => {
+                let variables = this.setVariables()
+                handleSubmit({
+                  variables: variables
+                })
+              }}
+            >
+              {icon}
+            </IconButton>
+          )
+        }}
+      </Mutation>
+    )
+  }
+}
 
 export default EditProduct;
