@@ -8,11 +8,14 @@ import {
 } from 'react-icons/ai';
 import {
   Heading,
-  ResourceList, 
-  ResourceItem,
   TextStyle,
   Card
 } from '@shopify/polaris';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import IconButton from '@material-ui/core/IconButton';
 
 
 const GET_REVIEWS = gql`
@@ -40,7 +43,6 @@ class EditProduct extends React.Component {
     item: '',
     title: '',
     variantId: ''
-    
   }
 
   componentDidMount() {
@@ -54,23 +56,20 @@ class EditProduct extends React.Component {
         {({data, loading, error}) => {
           if (loading) return <div>Loading…</div>;
           if (error) return <div>{error.message}</div>;
-          console.log(data)
           return (
             <div style={{margin: "0 auto", width: "80%"}}>
               <div style={{margin: "20px"}}>
                 <Heading>{title}</Heading>
               </div>
               <Card>
-                <ResourceList
-                  resourceName={{ singular: 'Review', plural: 'Reviews' }}
-                  items={data.product.metafields.edges}
-                  renderItem={(item) => { 
-                    var json = JSON.parse(item.node.value) 
+                <List>
+                  {data.product.metafields.edges.map((value) => {
+                    const json = JSON.parse(value.node.value)
                     return(
-                      <ReviewTile json={json} id={item.node.key}/>
+                      <ReviewTile json={json} id={value.node.key} />
                     )
-                  }}
-                />
+                  })}
+                </List>
               </Card>
             </div>
           )
@@ -113,27 +112,23 @@ class ReviewTile extends React.Component {
       visibilityIcon = <AiFillEyeInvisible size={32} />
     }
     return(
-      <ResourceItem
-        id={this.props.id}
-      >
-        <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-          <div className="main">
-            <div style={{display: "flex"}}>
-              <Rating name="half-rating" defaultValue={parseInt(this.props.json['evaluation'])} precision={1} />
-              <p style={{marginLeft: "20px"}}>{this.props.json['name']}</p>
-            </div>
-            <h3>
-              <TextStyle variation="strong">{this.props.json['title']}</TextStyle>
-            </h3>
-            <div>{this.props.json['content']}</div>
+      <ListItem>
+        <div className="main">
+          <div style={{display: "flex"}}>
+            <Rating name="half-rating" defaultValue={parseInt(this.props.json['evaluation'])} precision={1} />
+            <p style={{marginLeft: "20px"}}>{this.props.json['name']}</p>
           </div>
-          <div className="visibility">
-            <a href="" style={{color: "black"}} onClick={this.changeVisibility}>
-              {visibilityIcon}
-            </a>
-          </div>
+          <h2>
+            <TextStyle variation="strong">{this.props.json['title']}</TextStyle>
+          </h2>
+          <div>{this.props.json['content']}</div>
         </div>
-      </ResourceItem>
+        <ListItemSecondaryAction>
+          <IconButton edge="end" aria-label="changeVisibility">
+            {visibilityIcon}
+          </IconButton>
+        </ListItemSecondaryAction>
+      </ListItem>
     )
   }
 }
