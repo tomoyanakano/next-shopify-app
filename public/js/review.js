@@ -14,7 +14,7 @@ function onSubmit(value) {
   var inputList = $(value).serializeArray();
   var data = parseJson(inputList);
   data['customerId'] = customerId;
-  data['visivbility'] = "true";
+  data['visibility'] = "true";
   $('#menk-form-submit-button').attr("disabled", "disabled")
   console.log(data);
   $.ajax({

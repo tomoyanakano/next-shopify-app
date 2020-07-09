@@ -56,7 +56,6 @@ class ResourceListWithProducts extends React.Component {
               items={data.products.edges}
               
               renderItem={(item) => {
-                console.log(item)
                 const media = (
                   <Thumbnail
                     source={
