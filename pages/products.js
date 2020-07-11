@@ -4,7 +4,6 @@ import store from 'store-js';
 import { Redirect } from '@shopify/app-bridge/actions';
 import { Context } from '@shopify/app-bridge-react';
 import { 
-  Card, 
   ResourceList, 
   ResourceItem,
   TextStyle,
