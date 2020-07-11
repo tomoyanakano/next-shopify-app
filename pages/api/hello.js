@@ -1,6 +1,5 @@
 import Cors from 'cors'
 import initMiddleware from '../../lib/init-middleware'
-import createReview from '../../lib/restAPI'
 const dotenv = require('dotenv');
 const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY, SHOPIFY_PRIVATE_APP_API, SHOPIFY_PRIVATE_APP_PASS } = process.env;
 
