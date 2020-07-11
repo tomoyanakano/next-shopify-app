@@ -145,6 +145,7 @@ class VisibilityButton extends React.Component {
 
   constructor(props) {
     super(props)
+    let visibility
     if (this.props.visibility == "true") {
       visibility = true
     } else {
@@ -175,10 +176,9 @@ class VisibilityButton extends React.Component {
     } else {
       icon = <AiFillEyeInvisible size={32} />
     }
-    console.log(this.props.json)
     return(
       <IconButton 
-        onClick={this.handleSubmit()}
+        onClick={() => this.handleSubmit()}
       >
         {icon}
       </IconButton>
