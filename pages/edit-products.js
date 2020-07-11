@@ -16,7 +16,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
-
+import updateReview from '../lib/restAPI'
 
 const GET_REVIEWS = gql`
   query Product($id: ID!){ 
@@ -142,58 +142,46 @@ class ReviewTile extends React.Component {
 }
 
 class VisibilityButton extends React.Component {
-  
-  setVariables = () => {
-    let json = this.props.json
+
+  constructor(props) {
+    super(props)
     if (this.props.visibility == "true") {
+      visibility = true
+    } else {
+      visibility = false
+    }
+    this.state = {
+      visibility:  visibility
+    }
+  }
+
+  handleSubmit() {
+    let json = this.props.json
+    if (this.state.visibility) {
       json['visibility'] = "false"
     } else {
       json['visibility'] = "true"
     }
-    console.log(json)
-    let variables = {
-      input : {
-        id: this.props.variantId,
-        metafields: [
-          {
-            namespace: "MenkReview",
-            key: this.props.customerId,
-            value: JSON.stringify(json),
-            valueType: "JSON_STRING"
-          }
-        ]
-      }
-    }
-    return variables
+    updateReview(this.props.customerId, this.props.variantId, json)
+    this.setState({
+      visibility: !this.state.visibility
+    })
   }
 
   render() {
+    let icon
+    if (this.state.visibility) {
+      icon = <AiFillEye size={32} />
+    } else {
+      icon = <AiFillEyeInvisible size={32} />
+    }
+    console.log(this.props.json)
     return(
-      <Mutation mutation={UPDATE_METAFIELD}>
-        {(handleSubmit, {loading, error, data}) => {
-          if (loading) {console.log(loading)}
-          if (data) {console.log(data)}
-          if (error) {console.log(error)}
-          let icon
-          if (this.props.visibility == "true") {
-            icon = <AiFillEye size={32} />
-          } else {
-            icon = <AiFillEyeInvisible size={32} />
-          }
-          return (
-            <IconButton 
-              onClick={() => {
-                let variables = this.setVariables()
-                handleSubmit({
-                  variables: variables
-                })
-              }}
-            >
-              {icon}
-            </IconButton>
-          )
-        }}
-      </Mutation>
+      <IconButton 
+        onClick={this.handleSubmit()}
+      >
+        {icon}
+      </IconButton>
     )
   }
 }
