@@ -16,6 +16,7 @@ const cors = initMiddleware(
 export default async function handler(req, res) {
   // Run cors
   await cors(req, res)
+
   const data = {
     "metafield": {
       "namespace": "MenkReview",

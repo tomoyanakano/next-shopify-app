@@ -16,7 +16,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
-import updateReview from '../lib/restAPI'
+
 
 const GET_REVIEWS = gql`
   query Product($id: ID!){ 
@@ -93,7 +93,7 @@ class EditProduct extends React.Component {
                       <ReviewTile 
                         json={json} 
                         key={value.node.key}
-                        customerId={value.node.key} 
+                        metafieldId={value.node.id}
                         variantId={variantId} 
                       />
                     )
@@ -131,8 +131,8 @@ class ReviewTile extends React.Component {
         <ListItemSecondaryAction>
           <VisibilityButton 
             visibility={this.props.json['visibility']} 
-            customerId={this.props.customerId}
             variantId={this.props.variantId}
+            metafieldId={this.props.metafieldId}
             json={this.props.json}
           />
         </ListItemSecondaryAction>
@@ -144,7 +144,7 @@ class ReviewTile extends React.Component {
 class VisibilityButton extends React.Component {
 
   constructor(props) {
-    super(props)
+    super(props) 
     let visibility
     if (this.props.visibility == "true") {
       visibility = true
@@ -152,36 +152,68 @@ class VisibilityButton extends React.Component {
       visibility = false
     }
     this.state = {
-      visibility:  visibility
+      visibility: visibility
     }
   }
-
-  handleSubmit() {
+  
+  setVariables = () => {
     let json = this.props.json
     if (this.state.visibility) {
       json['visibility'] = "false"
     } else {
       json['visibility'] = "true"
     }
-    updateReview(this.props.customerId, this.props.variantId, json)
-    this.setState({
-      visibility: !this.state.visibility
-    })
+    console.log(json)
+    let variables = {
+      input : {
+        id: this.props.variantId,
+        metafields: [
+          {
+            id: this.props.metafieldId,
+            value: JSON.stringify(json),
+            valueType: "JSON_STRING"
+          }
+        ]
+      }
+    }
+    return variables
   }
 
   render() {
-    let icon
-    if (this.state.visibility) {
-      icon = <AiFillEye size={32} />
-    } else {
-      icon = <AiFillEyeInvisible size={32} />
-    }
     return(
-      <IconButton 
-        onClick={() => this.handleSubmit()}
-      >
-        {icon}
-      </IconButton>
+      <Mutation mutation={UPDATE_METAFIELD}>
+        {(handleSubmit, {loading, error, data}) => {
+          let icon
+          if (this.state.visibility) {
+            icon = <AiFillEye size={32} />
+          } else {
+            icon = <AiFillEyeInvisible size={32} />
+          }
+          if (loading) {
+            return(
+              <IconButton disabled={true}>
+                {icon}
+              </IconButton>
+            )
+          }
+          if (data) {console.log(data)}
+          return (
+            <IconButton 
+              onClick={() => {
+                let variables = this.setVariables()
+                handleSubmit({
+                  variables: variables
+                })
+                this.setState({
+                  visibility: !this.state.visibility
+                })
+              }}
+            >
+              {icon}
+            </IconButton>
+          )
+        }}
+      </Mutation>
     )
   }
 }

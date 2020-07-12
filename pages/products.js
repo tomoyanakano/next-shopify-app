@@ -76,6 +76,7 @@ class ResourceListWithProducts extends React.Component {
                     media={media}
                     onClick={() => {
                       store.set('item', item);
+                      console.log("clicked");
                       redirectToProduct();
                     }}
                   >
