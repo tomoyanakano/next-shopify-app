@@ -80,6 +80,7 @@ class EditProduct extends React.Component {
         {({data, loading, error}) => {
           if (loading) return <div>Loading…</div>;
           if (error) return <div>{error.message}</div>;
+          console.log(data.product.metafields.edges.length)
           return (
             <div style={{margin: "0 auto", width: "80%"}}>
               <div style={{margin: "20px"}}>
