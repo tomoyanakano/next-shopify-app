@@ -1,17 +1,22 @@
-// import Cors from 'cors'
-// import initMiddleware from '../../lib/init-middleware'
-// const dotenv = require('dotenv');
-// const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY, SHOPIFY_PRIVATE_APP_API, SHOPIFY_PRIVATE_APP_PASS } = process.env;
+import Cors from 'cors'
+import initMiddleware from '../../lib/init-middleware'
+const dotenv = require('dotenv');
+const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY, SHOPIFY_PRIVATE_APP_API, SHOPIFY_PRIVATE_APP_PASS } = process.env;
 
-// // Initialize the cors middleware
-// const url = 'https://'+ SHOPIFY_PRIVATE_APP_API + ':' + SHOPIFY_PRIVATE_APP_PASS + '@menkapp.myshopify.com/admin/api/2020-04'
-// const cors = initMiddleware(
-//   // You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
-//   Cors({
-//     // Only allow requests with GET, POST and OPTIONS
-//     methods: ['GET', 'POST', 'OPTIONS'],
-//   })
-// )
+// Initialize the cors middleware
+const url = 'https://'+ SHOPIFY_PRIVATE_APP_API + ':' + SHOPIFY_PRIVATE_APP_PASS + '@menkapp.myshopify.com/admin/api/2020-04'
+const cors = initMiddleware(
+  // You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
+  Cors({
+    // Only allow requests with GET, POST and OPTIONS
+    methods: ['GET', 'POST', 'OPTIONS'],
+  })
+)
+
+export default (req, res) => {
+  await cors(req, res)
+  res.status(200).json({ text: 'Hello' })
+}
 
 // export default async function handler(req, res) {
 //   // Run cors
@@ -43,6 +48,3 @@
 //     });
 // }
 
-export default (req, res) => {
-  res.status(200).json({ text: 'Hello' })
-}
