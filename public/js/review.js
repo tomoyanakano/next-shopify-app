@@ -76,7 +76,7 @@ function addReview(data, summaryData) {
 
 function updateReviewSummary(data) {
   $.ajax({
-    url: 'https://next-shopify.vercel.app/api/review-summary',
+    url: 'https://next-shopify.vercel.app/api/reviewSummary',
     method: 'POST',
     headers: {
       'Access-Control-Allow-Origin': 'https://menkapp.myshopify.com',
