@@ -16,28 +16,33 @@ const cors = initMiddleware(
 export default async function handler(req, res) {
   // Run cors
   await cors(req, res)
-  const data = {
-    "metafield": {
-      "namespace": "MenkReview",
-      "key": req.body[0].customerId,
-      "value": JSON.stringify(req.body[0]),
-      "value_type": "json_string"
-    }
-  }
+  console.log(req.body)
+  console.log(req.body[0])
+  // const data = {
+  //   "metafield": {
+  //     "namespace": "MenkReview",
+  //     "key": req.body[0].customerId,
+  //     "value": JSON.stringify(req.body[0]),
+  //     "value_type": "json_string"
+  //   }
+  // }
 
-  const optionsMetafields = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data)
-  };
+  // const optionsMetafields = {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify(data)
+  // };
 
-  fetch(url + '/products/'+ req.body[0].productId +'/metafields.json', optionsMetafields)
-    .then(res => res.json())
-    .then(response => {
-      return res.json({
-        result: response,
-      })
-    });
+  // fetch(url + '/products/'+ req.body[0].productId +'/metafields.json', optionsMetafields)
+  //   .then(res => res.json())
+  //   .then(response => {
+  //     return res.json({
+  //       result: response,
+  //     })
+  //   });
+  return res.json({
+    result: req.body
+  })
 }
