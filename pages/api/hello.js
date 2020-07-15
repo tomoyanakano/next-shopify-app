@@ -17,7 +17,6 @@ export default async function handler(req, res) {
   // Run cors
   await cors(req, res)
   console.log(req.body)
-  var json = JSON.parse(req.body)
   // const data = {
   //   "metafield": {
   //     "namespace": "MenkReview",

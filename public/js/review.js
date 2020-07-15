@@ -56,6 +56,7 @@ function onSubmit(value) {
 function addReview(data, summaryData) {
   var validation = checkValidation(data)
   console.log(data)
+  var obj = { "data": data, "summary": summaryData }
   if (validation) {
     $.ajax({
       url: 'https://next-shopify.vercel.app/api/hello',
@@ -65,10 +66,7 @@ function addReview(data, summaryData) {
         'scopes': ['read_products', 'write_products', 'write_script_tags', 'read_script_tags'],
       },
       dataType: "json",
-      data: JSON.stringify({
-        data: data,
-        summary: summaryData
-      })
+      data: JSON.stringify(obj)
     }).done((resp) => {
       console.log(resp)
       $('#menk-review-form').replaceWith(
@@ -76,30 +74,9 @@ function addReview(data, summaryData) {
           <h2>レビューありがとうございました！</h2>
         </div>`
       )
-      // updateReviewSummary(summaryData)
     });
   } else {
     $('#menk-form-submit-button').prop('disabled', false)
   }
   return; 
-}
-
-function updateReviewSummary(data) {
-  $.ajax({
-    url: 'https://next-shopify.vercel.app/api/reviewSummary',
-    method: 'POST',
-    headers: {
-      'Access-Control-Allow-Origin': 'https://menkapp.myshopify.com',
-      'scopes': ['read_products', 'write_products', 'write_script_tags', 'read_script_tags'],
-    },
-    dataType: "json",
-    data: data
-  }).done((resp) => {
-    console.log(resp)
-    $('#menk-review-form').replaceWith(
-      `<div class="submit-result" style="margin: 0 auto; text-align: center;">
-        <h2>レビューありがとうございました！</h2>
-      </div>`
-    )
-  });
 }
