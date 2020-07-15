@@ -64,9 +64,17 @@ function addReview(data, summaryData) {
         'scopes': ['read_products', 'write_products', 'write_script_tags', 'read_script_tags'],
       },
       dataType: "json",
-      data: data
+      data: {
+        "data": data,
+        "summary": summaryData
+      }
     }).done((resp) => {
-      updateReviewSummary(summaryData)
+      $('#menk-review-form').replaceWith(
+        `<div class="submit-result" style="margin: 0 auto; text-align: center;">
+          <h2>レビューありがとうございました！</h2>
+        </div>`
+      )
+      // updateReviewSummary(summaryData)
     });
   } else {
     $('#menk-form-submit-button').prop('disabled', false)
