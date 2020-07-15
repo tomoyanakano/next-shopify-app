@@ -42,6 +42,6 @@ export default async function handler(req, res) {
   //     })
   //   });
   return res.json({
-    result: json
+    result: req.body
   })
 }
