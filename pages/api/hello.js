@@ -16,12 +16,11 @@ const cors = initMiddleware(
 export default async function handler(req, res) {
   // Run cors
   await cors(req, res)
-  console.log(req.body)
   const data = {
     "metafield": {
       "namespace": "MenkReview",
-      "key": req.body.customerId,
-      "value": JSON.stringify(req.body),
+      "key": req.body[0].customerId,
+      "value": JSON.stringify(req.body[0]),
       "value_type": "json_string"
     }
   }
@@ -34,7 +33,7 @@ export default async function handler(req, res) {
     body: JSON.stringify(data)
   };
 
-  fetch(url + '/products/'+ req.body.productId +'/metafields.json', optionsMetafields)
+  fetch(url + '/products/'+ req.body[0].productId +'/metafields.json', optionsMetafields)
     .then(res => res.json())
     .then(response => {
       return res.json({

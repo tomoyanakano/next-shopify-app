@@ -55,6 +55,7 @@ function onSubmit(value) {
 
 function addReview(data, summaryData) {
   var validation = checkValidation(data)
+  console.log(data)
   if (validation) {
     $.ajax({
       url: 'https://next-shopify.vercel.app/api/hello',
@@ -64,7 +65,7 @@ function addReview(data, summaryData) {
         'scopes': ['read_products', 'write_products', 'write_script_tags', 'read_script_tags'],
       },
       dataType: "json",
-      data: data
+      data: [ data, summaryData ]
     }).done((resp) => {
       console.log(resp)
       $('#menk-review-form').replaceWith(
