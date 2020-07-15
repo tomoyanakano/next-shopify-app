@@ -30,6 +30,7 @@ export default async function handler(req, res) {
       "value_type": "json_string"
     }
   }
+  
 
   const optionsMetafields = {
     method: "POST",
@@ -46,7 +47,4 @@ export default async function handler(req, res) {
         result: response,
       })
     });
-  return res.json({
-    result: req.body
-  })
 }
