@@ -17,31 +17,31 @@ export default async function handler(req, res) {
   // Run cors
   await cors(req, res)
   console.log(req.body)
-  var json = JSON.parse(req.body)
-  const data = {
-    "metafield": {
-      "namespace": "MenkReview",
-      "key": json['data'].customerId,
-      "value": JSON.stringify(json['data']),
-      "value_type": "json_string"
-    }
-  }
+  // var json = JSON.parse(req.body)
+  // const data = {
+  //   "metafield": {
+  //     "namespace": "MenkReview",
+  //     "key": json['data'].customerId,
+  //     "value": JSON.stringify(json['data']),
+  //     "value_type": "json_string"
+  //   }
+  // }
 
-  const optionsMetafields = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data)
-  };
+  // const optionsMetafields = {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify(data)
+  // };
 
-  fetch(url + '/products/'+ json['data'].productId +'/metafields.json', optionsMetafields)
-    .then(res => res.json())
-    .then(response => {
-      return res.json({
-        result: response,
-      })
-    });
+  // fetch(url + '/products/'+ json['data'].productId +'/metafields.json', optionsMetafields)
+  //   .then(res => res.json())
+  //   .then(response => {
+  //     return res.json({
+  //       result: response,
+  //     })
+  //   });
   return res.json({
     result: json
   })
