@@ -16,12 +16,12 @@ const cors = initMiddleware(
 export default async function handler(req, res) {
   // Run cors
   await cors(req, res)
-  console.log(req.body.data)
+  console.log(req.body)
   const data = {
     "metafield": {
       "namespace": "MenkReview",
       "key": req.body.customerId,
-      "value": JSON.stringify(req.body.data),
+      "value": JSON.stringify(req.body),
       "value_type": "json_string"
     }
   }

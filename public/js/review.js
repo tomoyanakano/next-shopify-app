@@ -64,10 +64,7 @@ function addReview(data, summaryData) {
         'scopes': ['read_products', 'write_products', 'write_script_tags', 'read_script_tags'],
       },
       dataType: "json",
-      data: {
-        "data": data,
-        "summary": summaryData
-      }
+      data: data
     }).done((resp) => {
       console.log(resp)
       $('#menk-review-form').replaceWith(
