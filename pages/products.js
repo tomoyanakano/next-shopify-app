@@ -7,7 +7,7 @@ import {
   ResourceList, 
   ResourceItem,
   TextStyle,
-  Thumbnail
+  Thumbnail,
 } from '@shopify/polaris';
 
 const GET_PRODUTS =  gql`
@@ -52,8 +52,7 @@ class ResourceListWithProducts extends React.Component {
           return (
             <ResourceList
               resourceName={{ singular: 'Product', plural: 'Products' }}
-              items={data.products.edges}
-              
+              items={data.products.edges}     
               renderItem={(item) => {
                 const media = (
                   <Thumbnail
