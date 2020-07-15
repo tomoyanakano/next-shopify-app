@@ -66,8 +66,8 @@ function addReview(data, summaryData) {
       },
       dataType: "json",
       data: JSON.stringify({
-        "data": data,
-        "summary": summaryData
+        data: data,
+        summary: summaryData
       })
     }).done((resp) => {
       console.log(resp)
