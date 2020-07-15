@@ -85,6 +85,7 @@ function updateReviewSummary(data) {
     dataType: "json",
     data: data
   }).done((resp) => {
+    console.log(resp)
     $('#menk-review-form').replaceWith(
       `<div class="submit-result" style="margin: 0 auto; text-align: center;">
         <h2>レビューありがとうございました！</h2>
