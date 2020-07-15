@@ -28,35 +28,30 @@ var setSummaryData = function(countData, averageData, data) {
   var count = parseInt(countData) + 1
   var value = parseInt(data['evaluation'])
   var average = parseInt(averageData) + (value - parseInt(averageData)) / count
-  return {
-    'count': count,
-    'average': average
-  }
+  data['count'] = count,
+  data['average'] = average
+  return data
 }
 
 function onSubmit(value) {
   var customerId = $('#menk-review-form').attr('customerId');;
   var inputList = $(value).serializeArray();
   var data = parseJson(inputList);
-  var summaryData = {};
   if (!data['count'] && !data['average']) {
-    summaryData['count'] = 1
-    summaryData['average'] = parseInt(data['evaluation'])
+    data['count'] = 1
+    data['average'] = parseInt(data['evaluation'])
   } else {
-    summaryData = setSummaryData(data['count'], data['average'], data)
+    data = setSummaryData(data['count'], data['average'], data)
   }
-  delete data['count']
-  delete data['average']
   data['customerId'] = customerId;
   data['visibility'] = "true";
   $('#menk-form-submit-button').attr("disabled", "disabled")
-  addReview(data, summaryData)
+  addReview(data)
 }
 
 function addReview(data, summaryData) {
   var validation = checkValidation(data)
   console.log(data)
-  var obj = { "data": data, "summary": summaryData }
   if (validation) {
     $.ajax({
       url: 'https://next-shopify.vercel.app/api/hello',
@@ -66,7 +61,7 @@ function addReview(data, summaryData) {
         'scopes': ['read_products', 'write_products', 'write_script_tags', 'read_script_tags'],
       },
       dataType: "json",
-      data: obj
+      data: data
     }).done((resp) => {
       console.log(resp)
       $('#menk-review-form').replaceWith(

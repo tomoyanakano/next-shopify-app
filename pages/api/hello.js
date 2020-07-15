@@ -16,35 +16,37 @@ const cors = initMiddleware(
 export default async function handler(req, res) {
   // Run cors
   await cors(req, res)
-  var json = req.body
-  console.log(json)
-  console.log(json.data)
-  console.log(json.summary)
-  // const data = {
-  //   "metafield": {
-  //     "namespace": "MenkReview",
-  //     "key": json['data'].customerId,
-  //     "value": JSON.stringify(json['data']),
-  //     "value_type": "json_string"
-  //   }
-  // }
+  var summary = {}
+  summary['count'] = req.body.count
+  summary['average'] = req.body.average
+  delete req.body.count
+  delete req.body.average
 
-  // const optionsMetafields = {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify(json.data)
-  // };
+  const data = {
+    "metafield": {
+      "namespace": "MenkReview",
+      "key": req.body.customerId,
+      "value": JSON.stringify(req.body),
+      "value_type": "json_string"
+    }
+  }
 
-  // fetch(url + '/products/'+ json['data'].productId +'/metafields.json', optionsMetafields)
-  //   .then(res => res.json())
-  //   .then(response => {
-  //     return res.json({
-  //       result: response,
-  //     })
-  //   });
-  // return res.json({
-  //   result: req.body
-  // })
+  const optionsMetafields = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data)
+  };
+
+  fetch(url + '/products/'+ req.body.productId +'/metafields.json', optionsMetafields)
+    .then(res => res.json())
+    .then(response => {
+      return res.json({
+        result: response,
+      })
+    });
+  return res.json({
+    result: req.body
+  })
 }
