@@ -23,35 +23,44 @@ export default async function handler(req, res) {
   delete req.body.average
 
   const data = {
-    "product": {
-      "metafields": [{
-        "namespace": "MenkReview",
-        "key": req.body.customerId,
-        "value": JSON.stringify(req.body),
-        "value_type": "json_string"
-      }, {
-        "namespace": "MenkReview",
-        "key": "summary",
-        "value": JSON.stringify(summary),
-        "value_type": "json_string"
-      }]
+    "metafields": {
+      "namespace": "MenkReview",
+      "key": req.body.customerId,
+      "value": JSON.stringify(req.body),
+      "value_type": "json_string"
+    }, 
+  }
+
+  const summaryData = {
+    "metafields": {
+      "namespace": "reviewSummary",
+      "key": "summary",
+      "value": JSON.stringify(summary),
+      "value_type": "json_string"
     }
   }
   
 
-  const optionsMetafields = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data)
-  };
+  const optionsMetafields = function(data) {
+    return {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data)
+    }
+  }; 
 
-  fetch(url + '/products/'+ req.body.productId +'/metafields.json', optionsMetafields)
+
+  fetch(url + '/products/'+ req.body.productId +'/metafields.json', optionsMetafields(data))
     .then(res => res.json())
-    .then(response => {
-      return res.json({
-        result: response,
-      })
+    .then(() => {
+      fetch(url + url + '/products/'+ req.body.productId +'/metafields.json', optionsMetafields(summaryData))
+        .then(res => res.json())
+        .then(respnse => {
+          return res.json({
+            result: response,
+          })
+        })
     });
 }
