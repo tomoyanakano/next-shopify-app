@@ -54,13 +54,9 @@ export default async function handler(req, res) {
 
   fetch(url + '/products/'+ req.body.productId +'/metafields.json', optionsMetafields(data))
     .then(res => res.json())
-    .then(() => {
-      fetch(url + url + '/products/'+ req.body.productId +'/metafields.json', optionsMetafields(summaryData))
-        .then(res => res.json())
-        .then(respnse => {
-          return res.json({
-            result: response,
-          })
-        })
+    .then(response => {
+      return res.json({
+        result: response,
+      })
     });
 }
