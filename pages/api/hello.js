@@ -40,7 +40,7 @@ export default async function handler(req, res) {
   
 
   const optionsMetafields = {
-    method: "POST",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
