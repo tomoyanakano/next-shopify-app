@@ -23,7 +23,7 @@ export default async function handler(req, res) {
   delete req.body.average
 
   const data = {
-    "metafields": [{
+    "metafield": [{
       "namespace": "MenkReview",
       "key": req.body.customerId,
       "value": JSON.stringify(req.body),
