@@ -23,31 +23,29 @@ export default async function handler(req, res) {
   delete req.body.average
 
   const data = {
-    "product": {
-      "metafields": [{
-        "namespace": "MenkReview",
-        "key": req.body.customerId,
-        "value": JSON.stringify(req.body),
-        "value_type": "json_string"
-      }, {
-        "namespace": "reviewSummary",
-        "key": "summary",
-        "value": JSON.stringify(summary),
-        "value_type": "json_string"
-      }]
-    }
+    "metafields": [{
+      "namespace": "MenkReview",
+      "key": req.body.customerId,
+      "value": JSON.stringify(req.body),
+      "value_type": "json_string"
+    }, {
+      "namespace": "reviewSummary",
+      "key": "summary",
+      "value": JSON.stringify(summary),
+      "value_type": "json_string"
+    }]
   }
   
 
   const optionsMetafields = {
-    method: "PUT",
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data)
   };
 
-  fetch(url + '/products/'+ req.body.productId +'.json', optionsMetafields)
+  fetch(url + '/products/'+ req.body.productId +'/metafields.json', optionsMetafields)
     .then(res => res.json())
     .then(response => {
       return res.json({
