@@ -1,5 +1,6 @@
 import Cors from 'cors'
 import initMiddleware from '../../lib/init-middleware'
+import {syntaxError} from 'graphql';
 const dotenv = require('dotenv');
 const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY, SHOPIFY_PRIVATE_APP_API, SHOPIFY_PRIVATE_APP_PASS } = process.env;
 
@@ -17,6 +18,7 @@ export default async function handler(req, res) {
   // Run cors
   await cors(req, res)
   var summary = {}
+  var result = {}
   summary['count'] = req.body.count
   summary['average'] = req.body.average
   delete req.body.count
@@ -55,8 +57,15 @@ export default async function handler(req, res) {
   fetch(url + '/products/'+ req.body.productId +'/metafields.json', optionsMetafields(data))
     .then(res => res.json())
     .then(response => {
+      result['response1'] = response
+    });
+
+    fetch(url + '/products/'+ req.body.productId +'/metafields.json', optionsMetafields(summaryData))
+    .then(res => res.json())
+    .then(response => {
+      result['response2'] = response
       return res.json({
-        result: response,
+        result: result,
       })
     });
 }
