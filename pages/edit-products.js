@@ -38,6 +38,25 @@ const GET_REVIEWS = gql`
   }
 `;
 
+const GET_REVIEW_SUMMARY = gql`
+  query Product($id: ID!){ 
+    product(id: $id) {
+      metafields(first: 1, namespace: "reviewSummary") {
+        edges {
+          node {
+            id
+            key
+            value
+            valueType
+            description
+            legacyResourceId
+          }
+        }
+      }
+    }
+  }
+`;
+
 const UPDATE_METAFIELD = gql`
   mutation($input: ProductInput!) {
     productUpdate(input: $input) {
@@ -76,47 +95,66 @@ class EditProduct extends React.Component {
 
   render() {
     const { title, variantId } = this.state;
-    return(
-      
+    return(  
       <Page>
-        <Query query={GET_REVIEWS} variables={{id: variantId}}>
-          {({data, loading, error}) => {
-            if (loading) return <div>Loading…</div>;
-            if (error) return <div>{error.message}</div>;
-            if (data.product.metafields.edges.length == 0) {
-              return (
-                <div style={{margin: "0 auto", width: "80%"}}>
-                  <div style={{margin: "20px"}}>
-                  <Heading>{title}</Heading>
+        <div style={{margin: "0 auto", width: "80%"}}>
+          <div style={{margin: "20px"}}>
+            <Heading>{title}</Heading>
+            <Query query={GET_REVIEW_SUMMARY} variables={{id: variantId}}>
+              {({data, loading, error}) => {
+                if (loading) return <div>Loading...</div>
+                if (error) return <div>{error.message}</div>
+                if (data.product.metafields.edges.length == 0) {
+                  return (
+                    <div></div>
+                  )
+                }
+                const json = JSON.parse(data.product.metafields.edges[0].node.value)
+                console.log(json)
+                return (
+                  <div style={{display: "flex", padding: '30px', justifyContent: "space-between"}}>
+                    <h2 style={{fontSize: "32px", fontWeight: "bold" }}>{ json['average'] }</h2>
+                    <Rating name="half-rating" defaultValue={parseInt(json['average'])} precision={0.5} size="large"/>
+                    <span>{ json['count'] }件のレビュー</span>
                   </div>
-                  <p>Reviewはまだありません</p>
-                </div>
-              )
-            }
-            return (
-              <div style={{margin: "0 auto", width: "80%"}}>
-                <div style={{margin: "20px"}}>
-                  <Heading>{title}</Heading>
-                </div>
-                <Card>
-                  <List>
-                    {data.product.metafields.edges.map((value) => {
-                      const json = JSON.parse(value.node.value)
-                      return(
-                        <ReviewTile 
-                          json={json} 
-                          key={value.node.key}
-                          metafieldId={value.node.id}
-                          variantId={variantId} 
-                        />
-                      )
-                    })}
-                  </List>
-                </Card>
-              </div>
-            )
-          }}
-        </Query>
+                )
+              }}
+            </Query>
+          </div>
+          <Query query={GET_REVIEWS} variables={{id: variantId}}>
+            {({data, loading, error}) => {
+              if (loading) return <div>Loading…</div>;
+              if (error) return <div>{error.message}</div>;
+              if (data.product.metafields.edges.length == 0) {
+                return (
+                  <div style={{margin: "0 auto", width: "80%"}}>
+                    <div style={{margin: "20px"}}>
+                    <Heading>{title}</Heading>
+                    </div>
+                    <p>Reviewはまだありません</p>
+                  </div>
+                )
+              }
+              return (
+                  <Card>
+                    <List>
+                      {data.product.metafields.edges.map((value) => {
+                        const json = JSON.parse(value.node.value)
+                        return(
+                          <ReviewTile 
+                            json={json} 
+                            key={value.node.key}
+                            metafieldId={value.node.id}
+                            variantId={variantId} 
+                          />
+                        )
+                      })}
+                    </List>
+                  </Card>
+                )
+              }}
+            </Query>
+        </div>
       </Page>
     );
   }
@@ -130,7 +168,6 @@ class EditProduct extends React.Component {
 
 class ReviewTile extends React.Component {
   render() {
-    console.log(this.props.json)
     return(
       <ListItem>
         <div className="main">

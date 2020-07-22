@@ -60,12 +60,12 @@ export default async function handler(req, res) {
       result['response1'] = response
     });
 
-    fetch(url + '/products/'+ req.body.productId +'/metafields.json', optionsMetafields(summaryData))
-    .then(res => res.json())
-    .then(response => {
-      result['response2'] = response
-      return res.json({
-        result: result,
-      })
-    });
+  fetch(url + '/products/'+ req.body.productId +'/metafields.json', optionsMetafields(summaryData))
+  .then(res => res.json())
+  .then(response => {
+    result['response2'] = response
+    return res.json({
+      result: result,
+    })
+  });
 }
