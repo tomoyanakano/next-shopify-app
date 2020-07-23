@@ -109,6 +109,11 @@ class EditProduct extends React.Component {
                     <div></div>
                   )
                 }
+                if (data.product.metafields.edges.length == 0) {
+                  return (
+                    <div></div>
+                  )
+                }
                 const json = JSON.parse(data.product.metafields.edges[0].node.value)
                 console.log(json)
                 return (

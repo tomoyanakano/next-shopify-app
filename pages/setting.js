@@ -10,7 +10,6 @@ import { addFormFields } from '../lib/metafields'
 export default function Setting() {
   return(
     <Frame>
-      <Loading />
       <Page
         title="Setting"
       >
