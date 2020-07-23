@@ -25,22 +25,12 @@ export default async function handler(req, res) {
   delete req.body.average
 
   const data = {
-    "product": {
-      "metafields": [
-        {
-          "namespace": "MenkReview",
-          "key": req.body.customerId,
-          "value": JSON.stringify(req.body),
-          "value_type": "json_string"
-        },
-        {
-          "namespace": "MenkReview",
-          "key": "summary",
-          "value": JSON.stringify(summary),
-          "value_type": "json_string"
-        }
-      ] 
-    }
+    "metafield": {
+      "namespace": "MenkReview",
+      "key": req.body.customerId,
+      "value": JSON.stringify(req.body),
+      "value_type": "json_string"
+    }, 
   }
 
   const summaryData = {
@@ -55,7 +45,7 @@ export default async function handler(req, res) {
 
   const optionsMetafields = function(data) {
     return {
-      method: "PUT",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -64,21 +54,18 @@ export default async function handler(req, res) {
   }; 
 
 
-  fetch(url + '/products/'+ req.body.productId +'.json', optionsMetafields(data))
+  fetch(url + '/products/'+ req.body.productId +'/metafields.json', optionsMetafields(data))
     .then(res => res.json())
     .then(response => {
       result['response1'] = response
-      return res.json({
-        result: result,
-      })
     });
 
-  // fetch(url + '/products/'+ req.body.productId +'/metafields.json', optionsMetafields(summaryData))
-  // .then(res => res.json())
-  // .then(response => {
-  //   result['response2'] = response
-  //   return res.json({
-  //     result: result,
-  //   })
-  // });
+  fetch(url + '/products/'+ req.body.productId +'/metafields.json', optionsMetafields(summaryData))
+  .then(res => res.json())
+  .then(response => {
+    result['response2'] = response
+    return res.json({
+      result: result,
+    })
+  });
 }
