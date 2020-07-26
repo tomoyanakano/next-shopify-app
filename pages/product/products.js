@@ -40,7 +40,7 @@ class ResourceListWithProducts extends React.Component {
       const redirect = Redirect.create(app);
       redirect.dispatch(
         Redirect.Action.APP,
-        '/edit-products',
+        'product/edit-products',
       );
     };
 

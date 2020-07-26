@@ -1,6 +1,5 @@
 require('isomorphic-fetch');
 const Koa = require('koa');
-const cors = require('@koa/cors');
 const next = require('next');
 const { default: createShopifyAuth } = require('@shopify/koa-shopify-auth');
 const dotenv = require('dotenv');
@@ -8,6 +7,7 @@ const { verifyRequest } = require('@shopify/koa-shopify-auth');
 const session = require('koa-session');
 
 dotenv.config();
+
 const { default: graphQLProxy } = require('@shopify/koa-shopify-graphql-proxy');
 const { ApiVersion } = require('@shopify/koa-shopify-graphql-proxy');
 

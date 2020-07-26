@@ -1,6 +1,7 @@
 import Cors from 'cors'
 import initMiddleware from '../../lib/init-middleware'
-import {syntaxError} from 'graphql';
+import createReview from '../../lib/firebase/firestore'
+
 const dotenv = require('dotenv');
 const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY, SHOPIFY_PRIVATE_APP_API, SHOPIFY_PRIVATE_APP_PASS } = process.env;
 
@@ -52,6 +53,8 @@ export default async function handler(req, res) {
       body: JSON.stringify(data)
     }
   }; 
+
+  createReview(req.body);
 
 
   fetch(url + '/products/'+ req.body.productId +'/metafields.json', optionsMetafields(data))
