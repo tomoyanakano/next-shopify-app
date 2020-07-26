@@ -54,16 +54,16 @@ export default async function handler(req, res) {
     }
   }; 
 
-  createReview(req.body);
+  await createReview(req.body);
 
 
-  fetch(url + '/products/'+ req.body.productId +'/metafields.json', optionsMetafields(data))
+  await fetch(url + '/products/'+ req.body.productId +'/metafields.json', optionsMetafields(data))
     .then(res => res.json())
     .then(response => {
       result['response1'] = response
     });
 
-  fetch(url + '/products/'+ req.body.productId +'/metafields.json', optionsMetafields(summaryData))
+  await fetch(url + '/products/'+ req.body.productId +'/metafields.json', optionsMetafields(summaryData))
   .then(res => res.json())
   .then(response => {
     result['response2'] = response
